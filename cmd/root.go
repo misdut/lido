@@ -3,14 +3,17 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"todo/lido"
+
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "lido",
-	Short: "lido is a cli program to store your tasks",
-	Long:  "Lido is a cli program to store your tasks in a simple and intuitive way",
+	Use:   "LiDo",
+	Short:	"CLI program for manage and storage your tasks",
+	Long: "CLI program for manage and storage your tasks",
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println(lido.TodoList.Show())
 	},
 }
 
