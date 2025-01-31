@@ -1,12 +1,12 @@
 package lido
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
+	"os"
 	"strconv"
-	"time"
 )
-
-var currentTime = time.Now().Local().Format("02/01/2006")
 
 type Todo struct {
 	Title string
@@ -14,11 +14,11 @@ type Todo struct {
 }
 
 type Todos struct {
-	List []Todo
+	List []Todo `json:"todos"`
 }
 
-func (t *Todos) Add(title string) {
-	t.List = append(t.List, Todo{Title: title, Date: currentTime})
+func (t *Todos) Add(title string, date string) {
+	t.List = append(t.List, Todo{Title: title, Date: date})
 }
 
 func (t Todos) Show() string {
@@ -44,8 +44,26 @@ func (t *Todos) Del(index string) {
 	}
 }
 
-var TodoList Todos = Todos{List: []Todo{
-	{Title: "Something to do", Date: currentTime},
-	{Title: "Somewhere to go", Date: currentTime},
-	{Title: "Something to buy", Date: currentTime},
-}}
+func (t *Todos) LoadFromFile() {
+	homeDir, exists := os.LookupEnv("HOME")
+	if !exists {
+		log.Fatal("HOME environment variable is not set")
+	}
+	body, err := os.ReadFile(homeDir + "/todos.json")
+    if err != nil {
+        log.Fatalf("unable to read file: %v", err)
+    }
+	var response Todos
+	json.Unmarshal(body, &response)
+
+	for _, td := range response.List {
+		t.Add(td.Title, td.Date)
+	}
+
+}
+
+var TodoList Todos
+
+func init() {
+	TodoList.LoadFromFile()
+}
