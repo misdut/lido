@@ -19,9 +19,14 @@ type Todos struct {
 
 func (t *Todos) Add(title string, date string) {
 	t.List = append(t.List, Todo{Title: title, Date: date})
+	t.UpdateFile()
 }
 
 func (t Todos) Show() string {
+	if len(t.List) == 0 {
+		return "Empty file"
+	}
+
 	s := ""
 	for i := 0; i < len(t.List); i++ {
 		s += strconv.Itoa(i+1) + " " + t.List[i].Title + " - " + t.List[i].Date + "\n"
@@ -38,7 +43,7 @@ func (t *Todos) Del(index string) {
 	} else {
 		currentList := append(t.List[:(i-1)], t.List[(i-1)+1:]...)
 		t.List = currentList
-
+		t.UpdateFile()
 		fmt.Println(t.Show())
 
 	}
@@ -49,10 +54,26 @@ func (t *Todos) LoadFromFile() {
 	if !exists {
 		log.Fatal("HOME environment variable is not set")
 	}
-	body, err := os.ReadFile(homeDir + "/todos.json")
-    if err != nil {
-        log.Fatalf("unable to read file: %v", err)
-    }
+	_, err := os.Stat(homeDir + "/.local/share/lido/todos.lido")
+	if err != nil {
+		dirErr := os.Mkdir(homeDir+"/.local/share/lido/", os.ModePerm)
+		if dirErr != nil {
+			log.Fatal(dirErr)
+		}
+
+		file, fileErr := os.Create(homeDir + "/.local/share/lido/todos.lido")
+		if fileErr != nil {
+			log.Fatal(fileErr)
+		}
+		defer file.Close()
+
+		fmt.Println("File created sucessfully")
+	}
+
+	body, err := os.ReadFile(homeDir + "/.local/share/lido/todos.lido")
+	if err != nil {
+		log.Fatalf("unable to read file: %v", err)
+	}
 	var response Todos
 	json.Unmarshal(body, &response)
 
@@ -61,6 +82,24 @@ func (t *Todos) LoadFromFile() {
 	}
 
 }
+
+func (t *Todos) UpdateFile() {
+	homeDir, exists := os.LookupEnv("HOME")
+	if !exists {
+		log.Fatal("HOME environment variable is not set")
+	}
+	jsonTodos, jErr := json.Marshal(t)
+	if jErr != nil {
+		log.Fatal(jErr)
+
+	}
+	err := os.WriteFile(homeDir+"/.local/share/lido/todos.lido", jsonTodos, 0644)
+	if err != nil {
+		log.Fatal(err)
+
+	}
+
+} 
 
 var TodoList Todos
 
