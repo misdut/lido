@@ -9,16 +9,28 @@ import (
 )
 
 type Todo struct {
-	Title string
-	Date  string
+	Checked bool
+	Title   string
+	Date    string
 }
 
 type Todos struct {
 	List []Todo `json:"todos"`
 }
 
-func (t *Todos) Add(title string, date string) {
-	t.List = append(t.List, Todo{Title: title, Date: date})
+func (t *Todos) ToggleChecked(index string) {
+	i, _ := strconv.Atoi(index)
+	checkedText := "checked"
+	if t.List[i-1].Checked {
+		checkedText = "unchecked"
+	}
+	t.List[i-1].Checked = !t.List[i-1].Checked
+	fmt.Printf("Task \"%v\" was %v.\n", t.List[i-1].Title, checkedText)
+	t.UpdateFile()
+}
+
+func (t *Todos) Add(title string, date string, checked bool) {
+	t.List = append(t.List, Todo{Title: title, Date: date, Checked: checked})
 	t.UpdateFile()
 }
 
@@ -29,9 +41,12 @@ func (t Todos) Show() string {
 
 	s := ""
 	for i := 0; i < len(t.List); i++ {
-		s += strconv.Itoa(i+1) + " " + t.List[i].Title + " - " + t.List[i].Date + "\n"
+		checkSymbol := "[ ]"
+		if t.List[i].Checked {
+			checkSymbol = "[X]"
+		}
+		s += checkSymbol + " " + strconv.Itoa(i+1) + " " + t.List[i].Title + " - " + t.List[i].Date + "\n"
 	}
-
 	return s
 }
 
@@ -78,7 +93,7 @@ func (t *Todos) LoadFromFile() {
 	json.Unmarshal(body, &response)
 
 	for _, td := range response.List {
-		t.Add(td.Title, td.Date)
+		t.Add(td.Title, td.Date, td.Checked)
 	}
 
 }
@@ -99,7 +114,7 @@ func (t *Todos) UpdateFile() {
 
 	}
 
-} 
+}
 
 var TodoList Todos
 
