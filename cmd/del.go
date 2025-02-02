@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"todo/lido"
+	"lido/todo"
 
 	"github.com/spf13/cobra"
 )
@@ -13,7 +13,7 @@ var delCmd = &cobra.Command {
     Long:   "Remove a task you have already completed",
     Args: cobra.ExactArgs(1),
     Run: func(cmd *cobra.Command, args []string){
-        lido.TodoList.Del(args[0])
+        todo.TodoList.Del(args[0])
     },
 }
 

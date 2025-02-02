@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"todo/lido"
+	"lido/todo"
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +12,7 @@ var lsCmd = &cobra.Command{
 	Short:	"Show all your tasks",
 	Long:	"List all your tasks",
 	Run:	func (cmd *cobra.Command, args []string) {
-		fmt.Println(lido.TodoList.Show())
+		fmt.Println(todo.TodoList.Show())
 	},
 }
 

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"todo/lido"
+	"lido/todo"
 
 	"github.com/spf13/cobra"
 )
@@ -12,7 +12,7 @@ var toggleCmd = &cobra.Command{
 	Short:   "Toggle checks task as done",
 	Args:	 cobra.ExactArgs(1),
 	Run:	func(cmd *cobra.Command, args []string) {
-		lido.TodoList.ToggleChecked(args[0])
+		todo.TodoList.ToggleChecked(args[0])
 	},
 }
 
