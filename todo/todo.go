@@ -21,7 +21,7 @@ type Todos struct {
 func (t *Todos) ToggleChecked(index string) {
 	i, _ := strconv.Atoi(index)
 	if i < 1 || i-1 >= len(t.List) {
-		fmt.Println("The given index is out of bounds.")
+		fmt.Println("The given id is invalid.")
 	} else {
 		checkedText := "checked"
 		if t.List[i-1].Checked {
@@ -58,7 +58,7 @@ func (t Todos) Show() string {
 func (t *Todos) Del(index string) {
 	i, _ := strconv.Atoi(index)
 	if i < 1 || i-1 >= len(t.List) {
-		fmt.Println("The given index is out of bounds.")
+		fmt.Println("The given id is invalid.")
 	} else {
 		currentList := append(t.List[:(i-1)], t.List[(i-1)+1:]...)
 		t.List = currentList
@@ -71,7 +71,7 @@ func (t *Todos) Del(index string) {
 func (t *Todos) LoadFromFile() {
 	homeDir, exists := os.LookupEnv("HOME")
 	if !exists {
-		log.Fatal("HOME environment variable is not set")
+		log.Fatal("HOME environment variable is not set.")
 	}
 	_, err := os.Stat(homeDir + "/.local/share/lido/todos.lido")
 	if err != nil {
@@ -86,7 +86,7 @@ func (t *Todos) LoadFromFile() {
 		}
 		defer file.Close()
 
-		fmt.Println("File created sucessfully")
+		fmt.Println("File created sucessfully.")
 	}
 
 	body, err := os.ReadFile(homeDir + "/.local/share/lido/todos.lido")
@@ -105,7 +105,7 @@ func (t *Todos) LoadFromFile() {
 func (t *Todos) UpdateFile() {
 	homeDir, exists := os.LookupEnv("HOME")
 	if !exists {
-		log.Fatal("HOME environment variable is not set")
+		log.Fatal("HOME environment variable is not set.")
 	}
 	jsonTodos, jErr := json.Marshal(t)
 	if jErr != nil {
