@@ -20,13 +20,18 @@ type Todos struct {
 
 func (t *Todos) ToggleChecked(index string) {
 	i, _ := strconv.Atoi(index)
-	checkedText := "checked"
-	if t.List[i-1].Checked {
-		checkedText = "unchecked"
+	if i < 1 || i-1 >= len(t.List) {
+		fmt.Println("The given index is out of bounds.")
+	} else {
+		checkedText := "checked"
+		if t.List[i-1].Checked {
+			checkedText = "unchecked"
+		}
+		t.List[i-1].Checked = !t.List[i-1].Checked
+		fmt.Printf("Task \"%v\" was %v.\n", t.List[i-1].Title, checkedText)
+		t.UpdateFile()
 	}
-	t.List[i-1].Checked = !t.List[i-1].Checked
-	fmt.Printf("Task \"%v\" was %v.\n", t.List[i-1].Title, checkedText)
-	t.UpdateFile()
+	
 }
 
 func (t *Todos) Add(title string, date string, checked bool) {
@@ -52,7 +57,6 @@ func (t Todos) Show() string {
 
 func (t *Todos) Del(index string) {
 	i, _ := strconv.Atoi(index)
-
 	if i < 1 || i-1 >= len(t.List) {
 		fmt.Println("The given index is out of bounds.")
 	} else {
