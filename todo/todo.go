@@ -44,7 +44,7 @@ func (t *Todos) Add(title string, date string, checked bool) {
 
 func (t Todos) Show() string {
 	if len(t.List) == 0 {
-		return color.YellowString("Empty file")
+		return color.New(color.FgYellow, color.Bold).Sprint("Empty file")
 	}
 
 	s := ""
