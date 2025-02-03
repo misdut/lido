@@ -1,5 +1,7 @@
 A basic CLI program for arquive your tasks
-- Package used: github.com/spf13/cobra
+Packages used: 
+- github.com/spf13/cobra
+- github.com/fatih/color
 
 <b>To Do App</b>
 You can:
