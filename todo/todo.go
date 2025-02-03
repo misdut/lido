@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+
 	"github.com/fatih/color"
 )
 
@@ -22,8 +23,8 @@ type Todos struct {
 func (t *Todos) ToggleChecked(index string) {
 	i, _ := strconv.Atoi(index)
 	if i < 1 || i-1 >= len(t.List) {
-		color.Set(color.FgRed, color.Bold)
-			fmt.Println("The given id is invalid.")
+		color.Set(color.FgRed)
+		fmt.Println("The given id is invalid.")
 		color.Unset()
 	} else {
 		checkedText := "checked"
@@ -34,7 +35,7 @@ func (t *Todos) ToggleChecked(index string) {
 		fmt.Printf("Task \"%v\" was %v.\n", t.List[i-1].Title, checkedText)
 		t.UpdateFile()
 	}
-	
+
 }
 
 func (t *Todos) Add(title string, date string, checked bool) {
@@ -44,7 +45,7 @@ func (t *Todos) Add(title string, date string, checked bool) {
 
 func (t Todos) Show() string {
 	if len(t.List) == 0 {
-		return color.New(color.FgYellow, color.Bold).Sprint("Empty file")
+		return color.New(color.FgYellow).Sprint("Empty file")
 	}
 
 	s := ""
@@ -61,51 +62,50 @@ func (t Todos) Show() string {
 func (t *Todos) Del(index string) {
 	i, _ := strconv.Atoi(index)
 	if i < 1 || i-1 >= len(t.List) {
-		color.Set(color.FgRed, color.Bold)
-			fmt.Println("The given id is invalid.")
+		color.Set(color.FgRed)
+		fmt.Println("The given id is invalid.")
 		color.Unset()
 	} else {
 		currentList := append(t.List[:(i-1)], t.List[(i-1)+1:]...)
 		t.List = currentList
 		t.UpdateFile()
 		fmt.Println(t.Show())
-
 	}
 }
 
 func (t *Todos) LoadFromFile() {
 	homeDir, exists := os.LookupEnv("HOME")
 	if !exists {
-		color.Set(color.FgRed, color.Bold)
-			log.Fatal("HOME environment variable is not set.")
+		color.Set(color.FgRed)
+		log.Fatal("HOME environment variable is not set.")
 		color.Unset()
 	}
 	_, err := os.Stat(homeDir + "/.local/share/lido/todos.lido")
 	if err != nil {
 		dirErr := os.Mkdir(homeDir+"/.local/share/lido/", os.ModePerm)
 		if dirErr != nil {
-		color.Set(color.FgRed, color.Bold)
+			color.Set(color.FgRed)
 			log.Fatal(dirErr)
-		color.Unset()
+			color.Unset()
 
 		}
 
 		file, fileErr := os.Create(homeDir + "/.local/share/lido/todos.lido")
 		if fileErr != nil {
-		color.Set(color.FgRed, color.Bold)
+			color.Set(color.FgRed)
 			log.Fatal(fileErr)
-		color.Unset()
+			color.Unset()
 		}
 		defer file.Close()
-		color.Set(color.FgGreen, color.Bold)
-			fmt.Println("File created sucessfully.")
+		color.Set(color.FgGreen)
+		fmt.Println("File created sucessfully.")
 		color.Unset()
 	}
 
 	body, err := os.ReadFile(homeDir + "/.local/share/lido/todos.lido")
 	if err != nil {
-		color.Set(color.FgRed, color.Bold)
-			log.Fatalf("unable to read file: %v", err)
+		color.Set(color.FgRed)
+		log.Fatalf("unable to read file: %v", err)
 		color.Unset()
 	}
 	var response Todos
@@ -120,20 +120,20 @@ func (t *Todos) LoadFromFile() {
 func (t *Todos) UpdateFile() {
 	homeDir, exists := os.LookupEnv("HOME")
 	if !exists {
-		color.Set(color.FgRed, color.Bold)
-			log.Fatal("HOME environment variable is not set.")
+		color.Set(color.FgRed)
+		log.Fatal("HOME environment variable is not set.")
 		color.Unset()
 	}
 	jsonTodos, jErr := json.Marshal(t)
 	if jErr != nil {
-		color.Set(color.FgRed, color.Bold)
-			log.Fatal(jErr)
+		color.Set(color.FgRed)
+		log.Fatal(jErr)
 		color.Unset()
 	}
 	err := os.WriteFile(homeDir+"/.local/share/lido/todos.lido", jsonTodos, 0644)
 	if err != nil {
-		color.Set(color.FgRed, color.Bold)
-			log.Fatal(err)
+		color.Set(color.FgRed)
+		log.Fatal(err)
 		color.Unset()
 	}
 
