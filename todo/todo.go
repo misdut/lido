@@ -38,9 +38,15 @@ func (t *Todos) ToggleChecked(index string) {
 
 }
 
-func (t *Todos) Add(title string, date string, checked bool) {
+func (t *Todos) Add(title string, date string, checked bool) string {
+	if title == "" {
+		return color.New(color.FgRed).Sprint("The given title is empty.")
+	}
 	t.List = append(t.List, Todo{Title: title, Date: date, Checked: checked})
 	t.UpdateFile()
+
+	return color.New(color.FgGreen).Sprintf("Added \"%v\" succesfully!", title)
+
 }
 
 func (t Todos) Show() string {
