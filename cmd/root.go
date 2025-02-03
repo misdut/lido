@@ -11,6 +11,7 @@ var rootCmd = &cobra.Command{
 	Short:	"CLI program for manage and storage your tasks",
 	Long: "CLI program for manage and storage your tasks",
 	Run: func(cmd *cobra.Command, args []string) {
+		cmd.Help()
 	},
 }
 
