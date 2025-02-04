@@ -1,11 +1,13 @@
 package todo
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/fatih/color"
 )
@@ -66,6 +68,40 @@ func (t Todos) Show() string {
 }
 
 func (t *Todos) Del(index string) {
+	if index == "all" {
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Print("Are you sure you want to remove all your to-dos(y/N): ")
+		input, _ := reader.ReadString('\n')
+		for _, i := range input {
+			switch strings.ToLower(string(i))  {
+			case "y", "yes":
+				if len(t.List) < 1 {
+					color.Set(color.FgYellow)
+					fmt.Println("There's nothing to remove.")
+					color.Unset()
+					return
+				}
+				t.List = []Todo{}
+				t.UpdateFile()
+				color.Set(color.FgGreen)
+				fmt.Println("Your to-dos were cleared sucessfully.")
+				color.Unset()
+				return
+			case "n", "no":
+				color.Set(color.FgYellow)
+				fmt.Println("Operation canceled.")
+				color.Unset()
+				return
+			default:
+				color.Set(color.FgRed)
+				fmt.Println("Operation canceled.")
+				color.Unset()
+				return
+			}
+		}
+			
+	}
+	
 	i, _ := strconv.Atoi(index)
 	if i < 1 || i-1 >= len(t.List) {
 		color.Set(color.FgRed)
