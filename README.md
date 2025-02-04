@@ -1,18 +1,47 @@
-A basic CLI program for arquive your tasks
-Packages used: 
-- github.com/spf13/cobra
-- github.com/fatih/color
+# LIDO
+<b>A simple CLI program to save your to-dos</b>
 
-<b>To Do App</b>
-You can:
-- Add task
-- Delete task
-- and show all tasks
+<b>Commands:</b>
+- <i>add - add command </i> 
+- <i>del - delete command </i> 
+- <i>ls - list command </i> 
+- <i>t - toggle command </i> 
 
-<b>The Add, Del and List Structure</b>
 
-For add a task, use the flag <i>add</i>. e.g. <code>$ <i>add</i> "something you want to do" "the date you started"</code>.
+<b>ADD COMMAND </b> - 
 
-For remove a task, use the flag <i>del</i>. e.g. <code>$ <i>del</i> 1 </code> the number will be the task index.
+To add a to-do, run
+```bash
+$ lido add "Something you want to do"
+```
+You can also add multiple tasks at once 
+```bash
+$ lido add "Something to buy" "Somewhere to go" "Something to do"
+```
 
-So, you may be wondering: "How can I see the index of each task?". Use the flag <i>list</i> e.g. <code>$ <i>list</i> </code> and that's all it takes.
+<b>DEL COMMAND </b> - 
+
+ After adding your tasks, they will all have indexes (added automatically) and you can delete or mark your tasks as done with it.
+
+To remove a to-do, run
+```bash
+ $ lido del 1
+```
+You can also delete all your tasks
+```bash
+ $ lido del all
+```
+
+<b>LS COMMAND </b> -
+
+To list your to-dos, run
+```bash
+$ lido ls
+```
+
+<b>T COMMAND </b> -
+
+To mark your to-do as done, run
+```bash
+$ lido t 1
+```
