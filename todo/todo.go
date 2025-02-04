@@ -139,9 +139,7 @@ func (t *Todos) LoadFromFile() {
 			color.Unset()
 		}
 		defer file.Close()
-		color.Set(color.FgGreen)
-		fmt.Println("File created sucessfully.")
-		color.Unset()
+		return
 	}
 
 	body, err := os.ReadFile(homeDir + "/.local/share/lido/todos.lido")
