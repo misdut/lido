@@ -12,11 +12,11 @@
 
 To add a to-do, run
 ```bash
-$ lido add "Something you want to do"
+lido add "Something you want to do"
 ```
 You can also add multiple tasks at once 
 ```bash
-$ lido add "Something to buy" "Somewhere to go" "Something to do"
+lido add "Something to buy" "Somewhere to go" "Something to do"
 ```
 
 <b>DEL COMMAND </b> - 
@@ -25,23 +25,23 @@ $ lido add "Something to buy" "Somewhere to go" "Something to do"
 
 To remove a to-do, run
 ```bash
- $ lido del 1
+lido del 1
 ```
 You can also delete all your tasks
 ```bash
- $ lido del all
+lido del all
 ```
 
 <b>LS COMMAND </b> -
 
 To list your to-dos, run
 ```bash
-$ lido ls
+lido ls
 ```
 
 <b>T COMMAND </b> -
 
 To mark your to-do as done, run
 ```bash
-$ lido t 1
+lido t 1
 ```
